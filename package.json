@@ -1,0 +1,20 @@
+{
+  "name": "fipp21",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Plataforma multiplayer de Blackjack para a atividade de Fullstack 2",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.9",
+    "express": "^5.3.0",
+    "socket.io": "^4.8.4"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
