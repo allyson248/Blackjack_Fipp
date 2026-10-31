@@ -1,13 +1,11 @@
 # FIPP21 — backend inicial
 
-Backend inicial da atividade de Fullstack 2: uma plataforma de Blackjack (21) com Express e Socket.IO.
+API REST para a plataforma multiplayer de Blackjack da atividade de Fullstack 2. A organização segue o padrão usado no projeto de locação: `routes` encaminham para `controllers`, que usam `entities` e `repositories`; o acesso MySQL fica em `database`.
 
-## Requisitos
+## Requisitos e início
 
 - Node.js 20 ou superior
-- MySQL (para a próxima etapa; ainda não conectado)
-
-## Começar
+- MySQL local (quando começarmos a persistir dados)
 
 ```powershell
 Copy-Item .env.example .env
@@ -15,22 +13,17 @@ npm install
 npm run dev
 ```
 
-Servidor: `http://localhost:5000`
+O backend inicia em `http://localhost:5000`. A documentação Swagger fica em `/docs`.
 
-## Endpoints e eventos disponíveis
+## Funcionalidades iniciais
 
-- `GET /api/health` — verifica se a API está ativa.
-- `POST /api/jogo/pontuacao` — calcula a pontuação de uma mão; os ases valem 11 ou 1 conforme necessário.
-- Socket.IO: envie `sala:entrar` com o código da sala; os clientes recebem `sala:participantes` com a quantidade conectada.
+- `GET /health` — verifica a API.
+- `POST /jogo/baralho` — cria e embaralha um baralho pela Deck of Cards API.
+- `POST /jogo/baralho/:codigo/comprar` com `{ "quantidade": 2 }` — compra cartas daquele baralho.
+- `POST /jogo/pontuacao` com `{ "cartas": ["ACE", "KING"] }` — calcula a pontuação; o Ás vale 11 ou 1 para evitar estouro quando possível.
+- Socket.IO: evento `sala:entrar` com o código da sala; clientes recebem `sala:participantes` com a contagem conectada.
 
-Exemplo de corpo para calcular pontuação:
+## Banco
 
-```json
-{ "cartas": ["ACE", "KING"] }
-```
+O SQL fornecido está em `database/sql-fipp21.sql`. A classe `database/database.js` lê a conexão do `.env`; não há credenciais de banco fixas no código. O middleware JWT já está preparado no padrão do projeto de referência, mas ainda não foi aplicado a rotas porque o fluxo de cadastro/login será implementado na próxima etapa. Persistência de salas e rodadas e regras completas do dealer também ficam para as próximas etapas.
 
-Os nomes dos valores seguem a resposta da Deck of Cards API (`ACE`, `KING`, `QUEEN`, `JACK`, `2` a `10`).
-
-## Banco de dados
-
-O modelo fornecido está em `database/sql-fipp21.sql`. As rotas ainda não persistem dados. Cadastro/login, JWT, Swagger, integração com MySQL e fluxo completo das rodadas serão implementados nas próximas etapas.

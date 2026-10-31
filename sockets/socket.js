@@ -4,7 +4,10 @@ export default function configurarSockets(io) {
       if (typeof codigoSala !== 'string' || !codigoSala.trim()) return;
       const sala = codigoSala.trim().toUpperCase();
       socket.join(sala);
-      io.to(sala).emit('sala:participantes', { sala, quantidade: io.sockets.adapter.rooms.get(sala)?.size ?? 0 });
+      io.to(sala).emit('sala:participantes', {
+        sala,
+        quantidade: io.sockets.adapter.rooms.get(sala)?.size ?? 0
+      });
     });
 
     socket.on('disconnecting', () => {
